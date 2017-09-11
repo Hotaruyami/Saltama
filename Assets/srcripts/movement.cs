@@ -10,11 +10,13 @@ public class movement : PhysicsObject
     private bool mirantDreta;
     private bool mirantDreta2;
     public float dashVelocity;
-
+    public GameObject arma2;
+    public GameObject arma;
+    public int wait1, wait2;
     // Use this for initialization
     void Awake()
     {
-
+        wait1 = 0;
     }
 
     protected override void ComputeVelocity()
@@ -22,7 +24,10 @@ public class movement : PhysicsObject
         Vector2 move = Vector2.zero;
 
         if (this.gameObject.tag == "Player") {
-
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                disparar1();
+            }
             move.x = Input.GetAxis("Horizontal2");
             if (Input.GetButtonDown("Jump") && grounded)
             {
@@ -60,7 +65,20 @@ public class movement : PhysicsObject
         else if (this.gameObject.tag == "Player2") {
             move.x = Input.GetAxis("Horizontal");
 
-            if (Input.GetButtonDown("Jump2") && grounded)
+            if (Input.GetKeyDown(KeyCode.Keypad2)) {
+
+                if (mirantDreta2)
+                {
+                    GameObject dispar = Instantiate(arma2, this.transform.position, Quaternion.Euler(0, 0, 0.1f));
+
+                }
+               if(!mirantDreta2) {
+                    GameObject dispar = Instantiate(arma2, this.transform.position, Quaternion.Euler(0, 0, -0.1f));
+
+
+                }
+            }
+                if (Input.GetButtonDown("Jump2") && grounded)
             {
                 velocity.y = jumpTakeOffSpeed;
             }
@@ -94,4 +112,25 @@ public class movement : PhysicsObject
         }
         targetVelocity = move * maxSpeed;
     }
+    private void disparar1() {
+        if (wait1 < 1)
+        {
+
+            if (mirantDreta)
+            {
+                GameObject dispar = Instantiate(arma, this.transform.position, Quaternion.Euler(0, 0, 0.1f));
+
+            }
+            if (!mirantDreta)
+            {
+                GameObject dispar = Instantiate(arma, this.transform.position, Quaternion.Euler(0, 0, -0.1f));
+
+
+            }
+            wait1 = 1000;
+        }
+
+        
+    }
+    
 }
